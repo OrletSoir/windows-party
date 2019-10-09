@@ -1,12 +1,11 @@
-using Caliburn.Micro;
-
 namespace windows_party
 {
     public interface IMain
     {
         Login.ILogin LoginPanel { get; set; }
+        ServerList.IServerList ServerListPanel { get; set; }
 
         void ShowLogin();
-        void ShowServers(string token);
+        void ShowServerList(string token);
     }
 }

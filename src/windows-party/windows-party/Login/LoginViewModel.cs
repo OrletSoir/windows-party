@@ -1,12 +1,6 @@
 ﻿using Caliburn.Micro;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Security;
 
 namespace windows_party.Login
 {
@@ -16,6 +10,10 @@ namespace windows_party.Login
         #region private backing fields
         private string username;
         private string password;
+        #endregion
+
+        #region interface events
+        public event EventHandler<LoginEventArgs> LoginSuccess;
         #endregion
 
         #region public property binds
@@ -50,6 +48,14 @@ namespace windows_party.Login
         }
         #endregion
 
+        #region method binds
+        public void Login()
+        {
+            LoginEventArgs loginEventArgs = new LoginEventArgs { Token = "This is a Test Token" };
+            LoginSuccess?.Invoke(this, loginEventArgs);
+        }
+        #endregion
+
         #region activate/deactivate actions
         protected override void OnActivate()
         {
@@ -61,15 +67,5 @@ namespace windows_party.Login
             //Password = string.Empty;
         }
         #endregion
-
-        #region interface events
-        public event EventHandler<LoginEventArgs> LoginSuccess;
-        #endregion
-
-        public void Login()
-        {
-            LoginEventArgs loginEventArgs = new LoginEventArgs { Token = "This is a Test!" };
-            LoginSuccess?.Invoke(this, loginEventArgs);
-        }
     }
 }

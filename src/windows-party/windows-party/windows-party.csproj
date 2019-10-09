@@ -73,13 +73,20 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\AppBootstrapper.cs" />
+    <Compile Include="Data\ServerItem.cs" />
     <Compile Include="Login\ILogin.cs" />
+    <Compile Include="Login\LoginEventArgs.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login\LoginViewModel.cs" />
     <Compile Include="Main\IMain.cs" />
     <Compile Include="Main\MainViewModel.cs" />
+    <Compile Include="ServerList\IServerList.cs" />
+    <Compile Include="ServerList\ServerListView.xaml.cs">
+      <DependentUpon>ServerListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ServerList\ServerListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\PasswordBoxHelper.cs" />
@@ -117,6 +124,10 @@
     <Page Include="Main\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ServerList\ServerListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,15 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using Caliburn.Micro;
+using windows_party.Login;
+using windows_party.ServerList;
+
 namespace windows_party
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows.Controls;
-    using Caliburn.Micro;
-    using windows_party.Login;
-
     public class AppBootstrapper : BootstrapperBase
     {
+        #region private fields
         SimpleContainer container;
+        #endregion
 
+        #region constructor/destructor
         public AppBootstrapper()
         {
             Initialize();
@@ -17,17 +21,23 @@ namespace windows_party
             // adding password box helper to convention manager
             ConventionManager.AddElementConvention<PasswordBox>(PasswordBoxHelper.BoundPasswordProperty, "Password", "PasswordChanged");
         }
+        #endregion
 
+        #region IoC container population
         protected override void Configure()
         {
             container = new SimpleContainer();
 
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
+
             container.PerRequest<IMain, MainViewModel>();
             container.PerRequest<ILogin, LoginViewModel>();
+            container.PerRequest<IServerList, ServerListViewModel>();
         }
+        #endregion
 
+        #region IoC container composition overrides
         protected override object GetInstance(Type service, string key)
         {
             return container.GetInstance(service, key);
@@ -42,7 +52,9 @@ namespace windows_party
         {
             container.BuildUp(instance);
         }
+        #endregion
 
+        #region app startup/cleanup actions
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
         {
             IMain mainViewModel = IoC.Get<IMain>();
@@ -51,5 +63,6 @@ namespace windows_party
             IWindowManager windowManager = IoC.Get<IWindowManager>();
             windowManager.ShowWindow(mainViewModel);
         }
+        #endregion
     }
 }
