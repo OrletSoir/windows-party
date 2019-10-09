@@ -1,13 +1,7 @@
 <Window x:Class="windows_party.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid Background="White">
-        <StackPanel VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Width="250">
-            <TextBox x:Name="Username" />
-            <PasswordBox x:Name="Password" />
-            <Button x:Name="Login" Content="Log in" />
-        </StackPanel>
+    <Grid>
+        <ContentControl x:Name="ActiveItem" />
     </Grid>
 </Window>

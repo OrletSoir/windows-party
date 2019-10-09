@@ -73,6 +73,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\AppBootstrapper.cs" />
+    <Compile Include="Login\ILogin.cs" />
+    <Compile Include="Login\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginViewModel.cs" />
     <Compile Include="Main\IMain.cs" />
     <Compile Include="Main\MainViewModel.cs" />
   </ItemGroup>
@@ -105,6 +110,10 @@
     <None Include="Core\App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Login\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Main\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

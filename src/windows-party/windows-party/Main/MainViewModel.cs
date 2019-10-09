@@ -1,53 +1,44 @@
 using Caliburn.Micro;
+using System;
 using System.ComponentModel.Composition;
 using System.Windows;
-using System.Security;
+using windows_party.Login;
 
 namespace windows_party
 {
     [Export(typeof(IMain))]
-    public class MainViewModel : PropertyChangedBase, IMain
+    public class MainViewModel : Conductor<IScreen>, IMain
     {
-        #region private backing fields
-        private string username;
-        private string password;
+        #region public properties
+        public ILogin LoginPanel { get; set; }
         #endregion
 
-        #region public property binds
-        public string Username
-        { 
-            get => username;
-            set
-            {
-                username = value;
-                NotifyOfPropertyChange(() => Username);
-                NotifyOfPropertyChange(() => CanLogin);
-            }
+        public MainViewModel()
+        {
+            //ShowLogin();
         }
 
-        public string Password
+        protected override void OnActivate()
         {
-            get => password;
-            set
-            {
-                password = value;
-                NotifyOfPropertyChange(() => Password);
-                NotifyOfPropertyChange(() => CanLogin);
-            }
+            if (LoginPanel != null)
+                LoginPanel.LoginSuccess += OnLoginSuccess;
+
+            ShowLogin();
         }
 
-        public bool CanLogin
+        void OnLoginSuccess(object sender, LoginEventArgs e)
         {
-            get
-            {
-                return !string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password);
-            }
+            MessageBox.Show(string.Format("Login success, here's your token:\r\n{0}", e.Token), "Success", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-        #endregion
 
-        public void Login()
+        public void ShowLogin()
         {
-            MessageBox.Show(string.Format("Hello {0}!\r\nYour password is {1}", username, password), "Log in", MessageBoxButton.OK, MessageBoxImage.Information);
+            ActivateItem(LoginPanel);
+        }
+
+        public void ShowServers(string token)
+        {
+            // nothing here yet
         }
     }
 }
