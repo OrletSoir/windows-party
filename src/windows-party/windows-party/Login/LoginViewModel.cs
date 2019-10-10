@@ -1,15 +1,28 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.ComponentModel.Composition;
+using System.Windows;
+using windows_party.DataContext;
 
 namespace windows_party.Login
 {
     [Export(typeof(ILogin))]
     public class LoginViewModel : Screen, ILogin
     {
+        #region private fields
+        private readonly IAuth _auth;
+        #endregion
+
         #region private backing fields
         private string username;
         private string password;
+        #endregion
+
+        #region constructor/destructor
+        public LoginViewModel(IAuth auth)
+        {
+            _auth = auth;
+        }
         #endregion
 
         #region interface events
@@ -51,8 +64,17 @@ namespace windows_party.Login
         #region method binds
         public void Login()
         {
-            LoginEventArgs loginEventArgs = new LoginEventArgs { Token = "This is a Test Token" };
-            LoginSuccess?.Invoke(this, loginEventArgs);
+            AuthResult authResult = _auth.Authenticate(Username, Password);
+
+            if (authResult.Success)
+            {
+                LoginEventArgs loginEventArgs = new LoginEventArgs { Token = authResult.Token };
+                LoginSuccess?.Invoke(this, loginEventArgs);
+            }
+            else
+            {
+                MessageBox.Show(authResult.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
 

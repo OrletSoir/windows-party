@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using windows_party.DataContext;
 using windows_party.Login;
 using windows_party.ServerList;
 
@@ -28,12 +29,19 @@ namespace windows_party
         {
             container = new SimpleContainer();
 
+            // main singleton components
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
 
-            container.PerRequest<IMain, MainViewModel>();
+            // data contexts
+            container.PerRequest<IAuth, PartyAuth>();
+
+            // interactive components (screens)
             container.PerRequest<ILogin, LoginViewModel>();
             container.PerRequest<IServerList, ServerListViewModel>();
+
+            // main application window (shell)
+            container.PerRequest<IMain, MainViewModel>();
         }
         #endregion
 

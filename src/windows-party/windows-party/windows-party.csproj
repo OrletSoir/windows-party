@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -73,7 +74,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\AppBootstrapper.cs" />
-    <Compile Include="Data\ServerItem.cs" />
+    <Compile Include="DataContext\Http.cs" />
+    <Compile Include="DataContext\IAuth.cs" />
+    <Compile Include="DataContext\ServerItem.cs" />
+    <Compile Include="DataContext\PartyAuth.cs" />
+    <Compile Include="Libs\JSON\Json.cs" />
+    <Compile Include="Libs\JSON\IJsonVariable.cs" />
+    <Compile Include="Libs\JSON\JsonArray.cs" />
+    <Compile Include="Libs\JSON\JsonSet.cs" />
+    <Compile Include="Libs\JSON\JsonTuple.cs" />
+    <Compile Include="Libs\JSON\JsonType.cs" />
+    <Compile Include="Libs\JSON\JsonVariable.cs" />
+    <Compile Include="Libs\JSON\Tools.cs" />
     <Compile Include="Login\ILogin.cs" />
     <Compile Include="Login\LoginEventArgs.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
