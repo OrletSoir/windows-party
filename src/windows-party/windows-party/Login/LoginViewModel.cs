@@ -64,7 +64,7 @@ namespace windows_party.Login
         #region method binds
         public void Login()
         {
-            AuthResult authResult = _auth.Authenticate(Username, Password);
+            IAuthResult authResult = _auth.Authenticate(Username, Password);
 
             if (authResult.Success)
             {

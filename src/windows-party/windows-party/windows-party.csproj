@@ -75,10 +75,22 @@
     </Compile>
     <Compile Include="Core\AppBootstrapper.cs" />
     <Compile Include="DataContext\Auth\AuthResult.cs" />
+    <Compile Include="DataContext\Auth\IAuthResult.cs" />
+    <Compile Include="DataContext\Factories\AuthRequestFactory.cs" />
+    <Compile Include="DataContext\Factories\ServersRequestFactory.cs" />
+    <Compile Include="DataContext\Parsers\ErrorMessageParser.cs" />
+    <Compile Include="DataContext\Parsers\LoginMessageParser.cs" />
+    <Compile Include="DataContext\Parsers\PartyServersListParser.cs" />
+    <Compile Include="DataContext\Server\IServer.cs" />
+    <Compile Include="DataContext\Server\IServerItem.cs" />
+    <Compile Include="DataContext\Server\IServerResult.cs" />
+    <Compile Include="DataContext\Server\PartyServer.cs" />
+    <Compile Include="DataContext\Server\ServerResult.cs" />
     <Compile Include="DataContext\Web\Http.cs" />
     <Compile Include="DataContext\Auth\IAuth.cs" />
-    <Compile Include="DataContext\PartyServer\ServerItem.cs" />
+    <Compile Include="DataContext\Server\ServerItem.cs" />
     <Compile Include="DataContext\Auth\PartyAuth.cs" />
+    <Compile Include="DataContext\Web\HttpResult.cs" />
     <Compile Include="Libs\JSON\Json.cs" />
     <Compile Include="Libs\JSON\IJsonVariable.cs" />
     <Compile Include="Libs\JSON\JsonArray.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using windows_party.DataContext.Auth;
+using windows_party.DataContext.Server;
 using windows_party.Login;
 using windows_party.ServerList;
 
@@ -35,6 +36,7 @@ namespace windows_party
 
             // data contexts
             container.PerRequest<IAuth, PartyAuth>();
+            container.PerRequest<IServer, PartyServer>();
 
             // interactive components (screens)
             container.PerRequest<ILogin, LoginViewModel>();

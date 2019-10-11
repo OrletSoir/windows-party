@@ -1,55 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using windows_party.Properties;
 
 namespace windows_party.DataContext.Web
 {
-    public sealed class HttpResult
-    {
-        public bool Success;
-        public HttpStatusCode HttpCode;
-        public string Response;
-
-        public static HttpResult FromWebResponse(WebResponse response)
-        {
-            if (response == null)
-                return FailedResponse();
-
-            HttpResult result = new HttpResult { Success = false };
-
-            if (response is HttpWebResponse)
-            {
-                result.HttpCode = ((HttpWebResponse)response).StatusCode;
-                result.Success = result.HttpCode == HttpStatusCode.OK;
-            }
-
-            StreamReader sr = new StreamReader(response.GetResponseStream());
-            result.Response = sr.ReadToEnd().Trim();
-
-            return result;
-        }
-
-        public static HttpResult FailedResponse()
-        {
-            return new HttpResult { Success = false };
-        }
-    }
-
     /**
      * This is the HTTP utility, it provides HTTP GET, HTTP POST methods for communication with the servers
      */
     public static class Http
     {
+        #region private constants
         private const string _paramGlue = @"{0}={1}";
         private const string _methodPost = @"POST";
         private const string _defaultContentType = @"application/x-www-form-urlencoded";
+        #endregion
 
+        #region helper functions
         public static string GetParamStr(Dictionary<string, string> parameters)
         {
             string[] posts = new string[parameters.Count];
@@ -74,7 +44,9 @@ namespace windows_party.DataContext.Web
 
             return result;
         }
+        #endregion
 
+        #region HTTP GET
         public static HttpResult Get(string uri, Dictionary<string, string> headers = null)
         {
             HttpResult result;
@@ -100,7 +72,9 @@ namespace windows_party.DataContext.Web
 
             return result;
         }
+        #endregion
 
+        #region HTTP POST
         public static HttpResult Post(string uri, Dictionary<string, string> post)
         {
             return Post(uri, GetParamStr(post), _defaultContentType);
@@ -143,5 +117,6 @@ namespace windows_party.DataContext.Web
 
             return result;
         }
+        #endregion
     }
 }

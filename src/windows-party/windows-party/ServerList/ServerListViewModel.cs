@@ -1,17 +1,24 @@
 ﻿using Caliburn.Micro;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using windows_party.DataContext.PartyServer;
+using windows_party.DataContext.Server;
 
 namespace windows_party.ServerList
 {
     [Export(typeof(IServerList))]
     public class ServerListViewModel: Screen, IServerList
     {
+        #region private fields
+        private readonly IServer _server;
+        #endregion
+
+        #region constructor/destructor
+        public ServerListViewModel(IServer server)
+        {
+            _server = server;
+        }
+        #endregion
+
         #region interface properties
         public string Token { get; set; }
         #endregion
@@ -21,7 +28,8 @@ namespace windows_party.ServerList
         #endregion
 
         #region public property binds
-        public BindableCollection<ServerItem> Items { get; private set; }
+        public string Message { get; private set; }
+        public BindableCollection<IServerItem> Items { get; private set; }
         #endregion
 
         #region method binds
@@ -37,15 +45,14 @@ namespace windows_party.ServerList
             // base call
             base.OnActivate();
 
-            // populate items
-            Random rnd = new Random();
+            // fetch servers using the supplied token
+            var serverResponse = _server.FetchServerData(Token);
 
-            Items = new BindableCollection<ServerItem>{
-                new ServerItem(Guid.NewGuid().ToString(), rnd.Next(0, 2500)),
-                new ServerItem(Guid.NewGuid().ToString(), rnd.Next(0, 2500)),
-                new ServerItem(Guid.NewGuid().ToString(), rnd.Next(0, 2500)),
-                new ServerItem(Guid.NewGuid().ToString(), rnd.Next(0, 2500))
-            };
+            // populate items
+            if (serverResponse.Success)
+                Items = new BindableCollection<IServerItem>(serverResponse.Servers);
+            else
+                Message = serverResponse.Message;
         }
         #endregion
     }
