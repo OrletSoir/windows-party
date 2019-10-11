@@ -74,10 +74,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\AppBootstrapper.cs" />
-    <Compile Include="DataContext\Http.cs" />
-    <Compile Include="DataContext\IAuth.cs" />
-    <Compile Include="DataContext\ServerItem.cs" />
-    <Compile Include="DataContext\PartyAuth.cs" />
+    <Compile Include="DataContext\Auth\AuthResult.cs" />
+    <Compile Include="DataContext\Web\Http.cs" />
+    <Compile Include="DataContext\Auth\IAuth.cs" />
+    <Compile Include="DataContext\PartyServer\ServerItem.cs" />
+    <Compile Include="DataContext\Auth\PartyAuth.cs" />
     <Compile Include="Libs\JSON\Json.cs" />
     <Compile Include="Libs\JSON\IJsonVariable.cs" />
     <Compile Include="Libs\JSON\JsonArray.cs" />

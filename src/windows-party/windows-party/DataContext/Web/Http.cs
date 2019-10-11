@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using windows_party.Properties;
 
-namespace windows_party.DataContext
+namespace windows_party.DataContext.Web
 {
     public sealed class HttpResult
     {
@@ -20,7 +20,7 @@ namespace windows_party.DataContext
         {
             if (response == null)
                 return FailedResponse();
-            
+
             HttpResult result = new HttpResult { Success = false };
 
             if (response is HttpWebResponse)

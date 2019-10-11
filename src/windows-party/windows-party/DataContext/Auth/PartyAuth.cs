@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using windows_party.DataContext.Web;
 using windows_party.Properties;
 
-namespace windows_party.DataContext
+namespace windows_party.DataContext.Auth
 {
-    public class PartyAuth: IAuth
+    public class PartyAuth : IAuth
     {
         private const string _usernameField = @"username";
         private const string _passwordField = @"password";

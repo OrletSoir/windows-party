@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace windows_party.Data
+namespace windows_party.DataContext.PartyServer
 {
     public class ServerItem
     {

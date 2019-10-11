@@ -5,8 +5,8 @@
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Width="250">
-            <TextBox x:Name="Username" />
-            <PasswordBox x:Name="Password" />
+            <TextBox x:Name="Username" Margin="0,0,0,5" />
+            <PasswordBox x:Name="Password"  Margin="0,0,0,5" />
             <Button x:Name="Login" Content="Log in" />
         </StackPanel>
     </Grid>

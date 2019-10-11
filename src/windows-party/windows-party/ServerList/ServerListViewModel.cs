@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using windows_party.Data;
+using windows_party.DataContext.PartyServer;
 
 namespace windows_party.ServerList
 {

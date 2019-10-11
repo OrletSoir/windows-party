@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using Caliburn.Micro;
-using windows_party.DataContext;
+using windows_party.DataContext.Auth;
 using windows_party.Login;
 using windows_party.ServerList;
 

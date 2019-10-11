@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.Composition;
 using System.Windows;
-using windows_party.DataContext;
+using windows_party.DataContext.Auth;
 
 namespace windows_party.Login
 {
