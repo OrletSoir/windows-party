@@ -8,6 +8,11 @@
                 <ResourceDictionary>
                     <local:AppBootstrapper x:Key="bootstrapper" />
                 </ResourceDictionary>
+                <ResourceDictionary Source="/windows-party;component/Controls/DecoratedPasswordBox/DecoratedPasswordBox.xaml"/>
+                <ResourceDictionary Source="/windows-party;component/Controls/DecoratedButton/DecoratedButton.xaml"/>
+                <ResourceDictionary Source="/windows-party;component/Controls/DecoratedButton/DecoratedLoginButton.xaml"/>
+                <ResourceDictionary Source="/windows-party;component/Controls/DecoratedButton/DecoratedLogoutButton.xaml"/>
+                <ResourceDictionary Source="/windows-party;component/Controls/DecoratedScrollViewer/DecoratedScrollViewer.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

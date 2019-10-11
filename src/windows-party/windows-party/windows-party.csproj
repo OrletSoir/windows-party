@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DecoratedTextBox\DecoratedTextBox.cs" />
     <Compile Include="Core\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -91,6 +92,8 @@
     <Compile Include="DataContext\Server\ServerItem.cs" />
     <Compile Include="DataContext\Auth\PartyAuth.cs" />
     <Compile Include="DataContext\Web\HttpResult.cs" />
+    <Compile Include="Helpers\WeakPropertyChangeNotifier.cs" />
+    <Compile Include="Helpers\PasswordBoxWatermarkBehavior.cs" />
     <Compile Include="Libs\JSON\Json.cs" />
     <Compile Include="Libs\JSON\IJsonVariable.cs" />
     <Compile Include="Libs\JSON\JsonArray.cs" />
@@ -142,6 +145,30 @@
     <None Include="Core\App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\DecoratedButton\DecoratedButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DecoratedButton\DecoratedLoginButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DecoratedButton\DecoratedLogoutButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DecoratedPasswordBox\DecoratedPasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DecoratedScrollViewer\DecoratedScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DecoratedTextBox\DecoratedTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Login\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +181,20 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Backgrounds\Dirk-Brace-Photo-Erik-Aeder.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Backgrounds\mark-healey-jaws_h.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

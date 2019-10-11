@@ -10,7 +10,7 @@ namespace windows_party.DataContext.Parsers
         #region private fields
         public const string _nameField = @"name";
         public const string _distanceField = @"distance";
-        public const string _km = @"km";
+        public const string _km = @" km";
         #endregion
 
         #region public methods

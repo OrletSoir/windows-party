@@ -16,6 +16,7 @@ namespace windows_party.Login
         #region private backing fields
         private string username;
         private string password;
+        private string error;
         #endregion
 
         #region constructor/destructor
@@ -35,7 +36,11 @@ namespace windows_party.Login
             get => username;
             set
             {
+                // reset error
+                error = string.Empty;
                 username = value;
+
+                NotifyOfPropertyChange(() => Error);
                 NotifyOfPropertyChange(() => Username);
                 NotifyOfPropertyChange(() => CanLogin);
             }
@@ -46,8 +51,24 @@ namespace windows_party.Login
             get => password;
             set
             {
+                // reset error
+                error = string.Empty;
                 password = value;
+
+                NotifyOfPropertyChange(() => Error);
                 NotifyOfPropertyChange(() => Password);
+                NotifyOfPropertyChange(() => CanLogin);
+            }
+        }
+
+        public string Error
+        {
+            get => error;
+            set
+            {
+                error = value;
+
+                NotifyOfPropertyChange(() => Error);
                 NotifyOfPropertyChange(() => CanLogin);
             }
         }
@@ -73,7 +94,7 @@ namespace windows_party.Login
             }
             else
             {
-                MessageBox.Show(authResult.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Error = authResult.Message;
             }
         }
         #endregion
