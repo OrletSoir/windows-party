@@ -75,6 +75,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\AppBootstrapper.cs" />
+    <Compile Include="DataContext\Auth\AuthAsyncParams.cs" />
+    <Compile Include="DataContext\Auth\AuthEventArgs.cs" />
     <Compile Include="DataContext\Auth\AuthResult.cs" />
     <Compile Include="DataContext\Auth\IAuthResult.cs" />
     <Compile Include="DataContext\Factories\AuthRequestFactory.cs" />

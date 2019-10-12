@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using windows_party.DataContext.Auth;
@@ -33,6 +34,9 @@ namespace windows_party
             // main singleton components
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
+
+            // helper things
+            container.PerRequest<BackgroundWorker, BackgroundWorker>();
 
             // data contexts
             container.PerRequest<IAuth, PartyAuth>();

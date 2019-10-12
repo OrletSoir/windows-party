@@ -23,6 +23,9 @@ namespace windows_party.Login
         public LoginViewModel(IAuth auth)
         {
             _auth = auth;
+
+            // attach our async call complete event handler
+            _auth.AuthenticateComplete += OnAuthenticateComplete;
         }
         #endregion
 
@@ -85,17 +88,9 @@ namespace windows_party.Login
         #region method binds
         public void Login()
         {
-            IAuthResult authResult = _auth.Authenticate(Username, Password);
-
-            if (authResult.Success)
-            {
-                LoginEventArgs loginEventArgs = new LoginEventArgs { Token = authResult.Token };
-                LoginSuccess?.Invoke(this, loginEventArgs);
-            }
-            else
-            {
-                Error = authResult.Message;
-            }
+            // do the async call
+            if (_auth.CanAuthenticateAsync())
+                _auth.AuthenticateAsync(Username, Password);
         }
         #endregion
 
@@ -108,6 +103,22 @@ namespace windows_party.Login
             // make sure qe have the password field cleared as we start
             // for some reason this breaks the binding -- investigate later
             //Password = string.Empty;
+        }
+        #endregion
+
+        #region async stuff
+        private void OnAuthenticateComplete(object sender, AuthEventArgs e)
+        {
+            IAuthResult authResult = e.AuthResult;
+
+            if (authResult.Success)
+            {
+                LoginSuccess?.Invoke(this, new LoginEventArgs { Token = authResult.Token });
+            }
+            else
+            {
+                Error = authResult.Message;
+            }
         }
         #endregion
     }
