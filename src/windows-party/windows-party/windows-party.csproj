@@ -84,11 +84,13 @@
     <Compile Include="DataContext\Parsers\ErrorMessageParser.cs" />
     <Compile Include="DataContext\Parsers\LoginMessageParser.cs" />
     <Compile Include="DataContext\Parsers\PartyServersListParser.cs" />
+    <Compile Include="DataContext\Server\FetchServerDataAsyncParams.cs" />
     <Compile Include="DataContext\Server\IServer.cs" />
     <Compile Include="DataContext\Server\IServerItem.cs" />
     <Compile Include="DataContext\Server\IServerResult.cs" />
     <Compile Include="DataContext\Server\PartyServer.cs" />
     <Compile Include="DataContext\Server\ServerResult.cs" />
+    <Compile Include="DataContext\Server\ServersFetchEventArgs.cs" />
     <Compile Include="DataContext\Web\Http.cs" />
     <Compile Include="DataContext\Auth\IAuth.cs" />
     <Compile Include="DataContext\Server\ServerItem.cs" />

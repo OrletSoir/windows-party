@@ -6,16 +6,24 @@ using windows_party.DataContext.Server;
 namespace windows_party.ServerList
 {
     [Export(typeof(IServerList))]
-    public class ServerListViewModel: Screen, IServerList
+    public class ServerListViewModel : Screen, IServerList
     {
         #region private fields
         private readonly IServer _server;
+        #endregion
+
+        #region private backing fields
+        private string message;
+        private BindableCollection<IServerItem> items;
         #endregion
 
         #region constructor/destructor
         public ServerListViewModel(IServer server)
         {
             _server = server;
+
+            // attach our async call complete event handler
+            _server.FetchServerDataComplete += OnFetchServerDataComplete;
         }
         #endregion
 
@@ -28,8 +36,27 @@ namespace windows_party.ServerList
         #endregion
 
         #region public property binds
-        public string Message { get; private set; }
-        public BindableCollection<IServerItem> Items { get; private set; }
+        public string Message
+        {
+            get => message;
+            protected set
+            {
+                message = value;
+
+                NotifyOfPropertyChange(() => Message);
+            }
+        }
+
+        public BindableCollection<IServerItem> Items
+        {
+            get => items;
+            protected set
+            {
+                items = value;
+
+                NotifyOfPropertyChange(() => Items);
+            }
+        }
         #endregion
 
         #region method binds
@@ -45,8 +72,16 @@ namespace windows_party.ServerList
             // base call
             base.OnActivate();
 
-            // fetch servers using the supplied token
-            var serverResponse = _server.FetchServerData(Token);
+            // do the async call
+            if (_server.CanFetchServerDataAsync())
+                _server.FetchServerDataAsync(Token);
+        }
+        #endregion
+
+        #region async stuff
+        private void OnFetchServerDataComplete(object sender, ServersFetchEventArgs e)
+        {
+            var serverResponse = e.ServersData;
 
             // populate items
             if (serverResponse.Success)

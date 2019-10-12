@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using windows_party.DataContext.Factories;
 using windows_party.DataContext.Parsers;
 using windows_party.DataContext.Web;
@@ -11,13 +11,19 @@ namespace windows_party.DataContext.Server
     {
         #region private fields
         private readonly string _url;
+        private BackgroundWorker _bWorker;
         #endregion
 
         #region constructor/destructor
-        public PartyServer()
+        public PartyServer(BackgroundWorker worker)
         {
             _url = Resources.ServersUrl;
+            ConfigureWorker(worker);
         }
+        #endregion
+
+        #region interface events
+        public event EventHandler<ServersFetchEventArgs> FetchServerDataComplete;
         #endregion
 
         #region interface methods
@@ -41,18 +47,48 @@ namespace windows_party.DataContext.Server
 
             return serverResult;
         }
+
+        public bool CanFetchServerDataAsync()
+        {
+            return _bWorker != null;
+        }
+
+        public void FetchServerDataAsync(string token)
+        {
+            _bWorker.RunWorkerAsync(new FetchServerDataAsyncParams { Token = token });
+        }
         #endregion
 
-        #region private helpers
-        private ServerResult GetRandomItemsResult(int count)
+        #region async worker events and methods
+        private void ConfigureWorker(BackgroundWorker worker)
         {
-            Random rnd = new Random();
-            List<ServerItem> items = new List<ServerItem>();
+            _bWorker = worker;
 
-            for (int i = 0; i < count; i++)
-                items.Add(new ServerItem { Name = Guid.NewGuid().ToString(), Distance = rnd.Next(0, 2500).ToString() });
+            _bWorker.DoWork += OnDoWork;
+            _bWorker.RunWorkerCompleted += OnRunWorkerCompleted;
+        }
 
-            return new ServerResult { Success = true, Servers = items };
+        private void OnDoWork(object sender, DoWorkEventArgs e)
+        {
+            FetchServerDataAsyncParams fetchParams = (FetchServerDataAsyncParams)e.Argument;
+            e.Result = FetchServerData(fetchParams.Token);
+        }
+
+        private void OnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ServerResult serverResult;
+
+            // handle any unhandled errors
+            if (e.Error != null)
+            {
+                serverResult = new ServerResult { Success = false, Message = e.Error.Message };
+            }
+            else
+            {
+                serverResult = (ServerResult)e.Result;
+            }
+
+            FetchServerDataComplete?.Invoke(this, new ServersFetchEventArgs { ServersData = serverResult });
         }
         #endregion
     }

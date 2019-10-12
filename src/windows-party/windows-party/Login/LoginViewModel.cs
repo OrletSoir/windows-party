@@ -17,11 +17,13 @@ namespace windows_party.Login
         private string username;
         private string password;
         private string error;
+        private bool busy;
         #endregion
 
         #region constructor/destructor
         public LoginViewModel(IAuth auth)
         {
+            busy = false;
             _auth = auth;
 
             // attach our async call complete event handler
@@ -67,7 +69,7 @@ namespace windows_party.Login
         public string Error
         {
             get => error;
-            set
+            protected set
             {
                 error = value;
 
@@ -76,11 +78,23 @@ namespace windows_party.Login
             }
         }
 
+        public bool Busy
+        {
+            get => busy;
+            protected set
+            {
+                busy = value;
+
+                NotifyOfPropertyChange(() => Busy);
+                NotifyOfPropertyChange(() => CanLogin);
+            }
+        }
+
         public bool CanLogin
         {
             get
             {
-                return !string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password);
+                return !busy && !string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password);
             }
         }
         #endregion
@@ -90,7 +104,10 @@ namespace windows_party.Login
         {
             // do the async call
             if (_auth.CanAuthenticateAsync())
+            {
+                Busy = true;
                 _auth.AuthenticateAsync(Username, Password);
+            }
         }
         #endregion
 
@@ -119,6 +136,8 @@ namespace windows_party.Login
             {
                 Error = authResult.Message;
             }
+
+            Busy = false;
         }
         #endregion
     }
