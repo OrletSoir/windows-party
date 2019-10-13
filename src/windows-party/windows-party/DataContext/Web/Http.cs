@@ -13,6 +13,10 @@ namespace windows_party.DataContext.Web
      */
     public static class Http
     {
+        #region Logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        #endregion
+
         #region private constants
         private const string _paramGlue = @"{0}={1}";
         private const string _methodPost = @"POST";
@@ -49,6 +53,8 @@ namespace windows_party.DataContext.Web
         #region HTTP GET
         public static HttpResult Get(string uri, Dictionary<string, string> headers = null)
         {
+            Logger.Debug("Executing HTTP GET query on {url}", uri);
+
             HttpResult result;
 
             try
@@ -67,6 +73,8 @@ namespace windows_party.DataContext.Web
             }
             catch (Exception e)
             {
+                Logger.Error("HTTP GET failed with error {error}, message: {message}", e.GetType(), e.Message);
+
                 throw new HttpException(string.Format(Resources.HttpGetError, e.GetType(), e.Message, uri));
             }
 
@@ -82,6 +90,8 @@ namespace windows_party.DataContext.Web
 
         public static HttpResult Post(string uri, string payload, string contentType, Dictionary<string, string> headers = null)
         {
+            Logger.Debug("Executing HTTP POST query on {url}", uri);
+
             HttpResult result;
 
             try
@@ -112,6 +122,8 @@ namespace windows_party.DataContext.Web
             }
             catch (Exception e)
             {
+                Logger.Error("HTTP GET failed with error {error}, message: {message}", e.GetType(), e.Message);
+
                 throw new HttpException(string.Format(Resources.HttpPostError, e.GetType(), e.Message, uri, payload));
             }
 

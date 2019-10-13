@@ -8,6 +8,10 @@ namespace windows_party.ServerList
     [Export(typeof(IServerList))]
     public class ServerListViewModel : Screen, IServerList
     {
+        #region Logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        #endregion
+
         #region private fields
         private readonly IServer _server;
         #endregion
@@ -20,6 +24,8 @@ namespace windows_party.ServerList
         #region constructor/destructor
         public ServerListViewModel(IServer server)
         {
+            Logger.Debug("Initializing the ServerListViewModel");
+
             _server = server;
 
             // attach our async call complete event handler
@@ -62,6 +68,8 @@ namespace windows_party.ServerList
         #region method binds
         public void Logout()
         {
+            Logger.Debug("Logout button clicked");
+
             LogoutClick?.Invoke(this, new EventArgs());
         }
         #endregion
@@ -69,12 +77,16 @@ namespace windows_party.ServerList
         #region activate/deactivate actions
         protected override void OnActivate()
         {
+            Logger.Debug("LoginViewModel is now active");
+
             // base call
             base.OnActivate();
 
             // do the async call
             if (_server.CanFetchServerDataAsync())
                 _server.FetchServerDataAsync(Token);
+            else
+                Logger.Error("_server is not set");
         }
         #endregion
 

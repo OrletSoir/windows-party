@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using windows_party.DataContext.Auth;
 using windows_party.DataContext.Server;
@@ -12,6 +13,10 @@ namespace windows_party
 {
     public class AppBootstrapper : BootstrapperBase
     {
+        #region Logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        #endregion
+
         #region private fields
         SimpleContainer container;
         #endregion
@@ -19,6 +24,8 @@ namespace windows_party
         #region constructor/destructor
         public AppBootstrapper()
         {
+            Logger.Debug("Initializing the AppBootstrapper");
+
             Initialize();
 
             // adding password box helper to convention manager
@@ -29,6 +36,8 @@ namespace windows_party
         #region IoC container population
         protected override void Configure()
         {
+            Logger.Debug("Initializing the IoC container");
+
             container = new SimpleContainer();
 
             // main singleton components
@@ -71,11 +80,29 @@ namespace windows_party
         #region app startup/cleanup actions
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
         {
+            Logger.Debug("Activating MainView");
+
             IMain mainViewModel = IoC.Get<IMain>();
             BuildUp(mainViewModel);
 
             IWindowManager windowManager = IoC.Get<IWindowManager>();
             windowManager.ShowWindow(mainViewModel);
+
+            Logger.Info("Application is running");
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            Logger.Info("Application is shutting down");
+
+            base.OnExit(sender, e);
+        }
+
+        protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Logger.Fatal("Fatal unhandled exception {exception} detected. Message: {message}", e.Exception.GetType(), e.Exception.Message);
+
+            base.OnUnhandledException(sender, e);
         }
         #endregion
     }

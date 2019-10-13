@@ -9,6 +9,10 @@ namespace windows_party.DataContext.Server
 {
     public class PartyServer : IServer
     {
+        #region Logger
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        #endregion
+
         #region private fields
         private readonly string _url;
         private BackgroundWorker _bWorker;
@@ -17,6 +21,8 @@ namespace windows_party.DataContext.Server
         #region constructor/destructor
         public PartyServer(BackgroundWorker worker)
         {
+            Logger.Debug("Initializing the PartyServer");
+
             _url = Resources.ServersUrl;
             ConfigureWorker(worker);
         }
@@ -29,6 +35,8 @@ namespace windows_party.DataContext.Server
         #region interface methods
         public IServerResult FetchServerData(string token)
         {
+            Logger.Debug("Fetching server data");
+
             HttpResult result = Http.Get(_url, ServersRequestFactory.MakeRequestHeaders(token));
 
             ServerResult serverResult = new ServerResult { Success = result.Success };
@@ -36,11 +44,15 @@ namespace windows_party.DataContext.Server
             // error?
             if (result.Success)
             {
+                Logger.Debug("Server query success");
+
                 if (!string.IsNullOrEmpty(result.Response))
                     serverResult.Servers = PartyServersListParser.ParseListItems(result.Response);
             }
             else
             {
+                Logger.Debug("Server query failure");
+
                 if (!string.IsNullOrEmpty(result.Response))
                     serverResult.Message = ErrorMessageParser.ParseErrorMessage(result.Response);
             }
@@ -55,6 +67,8 @@ namespace windows_party.DataContext.Server
 
         public void FetchServerDataAsync(string token)
         {
+            Logger.Debug("Initiating async server fetch operation");
+
             _bWorker.RunWorkerAsync(new FetchServerDataAsyncParams { Token = token });
         }
         #endregion
@@ -62,6 +76,14 @@ namespace windows_party.DataContext.Server
         #region async worker events and methods
         private void ConfigureWorker(BackgroundWorker worker)
         {
+            if (worker == null)
+            {
+                Logger.Error("Worker for PartyAuth not specified");
+                return;
+            }
+
+            Logger.Debug("Configuring the background worker");
+
             _bWorker = worker;
 
             _bWorker.DoWork += OnDoWork;
@@ -76,11 +98,15 @@ namespace windows_party.DataContext.Server
 
         private void OnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Logger.Debug("Background worker completed");
+
             ServerResult serverResult;
 
             // handle any unhandled errors
             if (e.Error != null)
             {
+                Logger.Info("Worker has returned an error {error} with message: {message}", e.Error.GetType(), e.Error.Message);
+
                 serverResult = new ServerResult { Success = false, Message = e.Error.Message };
             }
             else
