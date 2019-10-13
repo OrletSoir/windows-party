@@ -2,6 +2,7 @@ using Caliburn.Micro;
 using System;
 using System.ComponentModel.Composition;
 using windows_party.Login;
+using windows_party.Properties;
 using windows_party.ServerList;
 
 namespace windows_party
@@ -55,6 +56,8 @@ namespace windows_party
         protected override void OnActivate()
         {
             Logger.Debug("MainView is now active");
+
+            DisplayName = Resources.MainViewTitle;
 
             if (LoginPanel != null)
                 LoginPanel.LoginSuccess += OnLoginSuccess;

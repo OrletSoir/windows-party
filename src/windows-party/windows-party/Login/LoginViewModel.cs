@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using System;
 using System.ComponentModel.Composition;
+using System.Windows.Input;
 using windows_party.DataContext.Auth;
 
 namespace windows_party.Login
@@ -118,6 +119,14 @@ namespace windows_party.Login
                 _auth.AuthenticateAsync(Username, Password);
             }
         }
+        public void ExecuteFilterView(Key key)
+        {
+            if (key == Key.Enter && CanLogin)
+            {
+                Login();
+            }
+        }
+
         #endregion
 
         #region activate/deactivate actions
@@ -128,9 +137,8 @@ namespace windows_party.Login
             // base call
             base.OnActivate();
 
-            // make sure qe have the password field cleared as we start
-            // for some reason this breaks the binding -- investigate later
-            //Password = string.Empty;
+            // make sure qe have the password field cleared as we start/restart
+            Password = null;
         }
         #endregion
 

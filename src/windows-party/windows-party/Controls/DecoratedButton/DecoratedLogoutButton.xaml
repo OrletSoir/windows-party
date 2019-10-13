@@ -10,7 +10,10 @@
                     <Border Background="Transparent" x:Name="Bd" BorderBrush="Transparent"
                             BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
                         <Grid>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            <StackPanel Orientation="Horizontal" Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Source="/windows-party;component/Icons/logout.png" x:Name="btnIcon" Visibility="Visible" Stretch="Uniform" Height="16" Width="16" Margin="0,0,6,0" />
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </StackPanel>
                         </Grid>
                     </Border>
 

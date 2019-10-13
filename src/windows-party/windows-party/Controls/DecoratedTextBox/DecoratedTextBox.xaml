@@ -44,6 +44,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="watermarkText" />
                             <Setter Property="Background" Value="#999" TargetName="Bd" />
+                            <Setter Property="BorderBrush" Value="DarkGray" TargetName="Bd" />
                         </MultiTrigger>
 
                         <MultiTrigger>

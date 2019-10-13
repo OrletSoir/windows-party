@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using windows_party.DataContext.Auth;
 using windows_party.DataContext.Server;
+using windows_party.Helpers;
 using windows_party.Login;
 using windows_party.ServerList;
 
@@ -24,20 +26,40 @@ namespace windows_party
         #region constructor/destructor
         public AppBootstrapper()
         {
+            // attach our logger wrapper to the framework logging
+            AttachCaliburnMicroLogging();
+
+#if DEBUG
+            // if debugging configuration, enable debug level logging
+            EnableDebugLogging();
+#endif
+
             Logger.Debug("Initializing the AppBootstrapper");
 
             Initialize();
-
-            // adding password box helper to convention manager
-            ConventionManager.AddElementConvention<PasswordBox>(PasswordBoxHelper.BoundPasswordProperty, "Password", "PasswordChanged");
         }
         #endregion
 
-        #region IoC container population
+        #region Bootstrapper configuration
         protected override void Configure()
         {
+            Logger.Debug("Configuring the bootstrapper");
+
+            // adding password box helper to convention manager
+            ConventionManager.AddElementConvention<PasswordBox>(PasswordBoxHelper.BoundPasswordProperty, "Password", "PasswordChanged");
+
+            // add a special value entry for key press
+            MessageBinder.SpecialValues.Add("$pressedkey", (context) =>
+            {
+                if (context.EventArgs is KeyEventArgs keyArgs)
+                    return keyArgs.Key;
+
+                return null;
+            });
+
             Logger.Debug("Initializing the IoC container");
 
+            // initialize the IoC container
             container = new SimpleContainer();
 
             // main singleton components
@@ -105,5 +127,23 @@ namespace windows_party
             base.OnUnhandledException(sender, e);
         }
         #endregion
+
+        #region private helpers
+        private void AttachCaliburnMicroLogging()
+        {
+            LogManager.GetLog = type => new FrameworkLogger(type);
+        }
+        
+        private void EnableDebugLogging()
+        {
+            foreach (NLog.Config.LoggingRule rule in NLog.LogManager.Configuration.LoggingRules)
+            {
+                rule.EnableLoggingForLevel(NLog.LogLevel.Debug);
+            }
+
+            // Call to update existing Loggers created with GetLogger() or GetCurrentClassLogger()
+            NLog.LogManager.ReconfigExistingLoggers();
+        }
+#endregion
     }
 }

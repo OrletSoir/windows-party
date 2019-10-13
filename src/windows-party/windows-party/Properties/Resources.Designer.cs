@@ -88,6 +88,15 @@ namespace windows_party.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to windows-party.
+        /// </summary>
+        internal static string MainViewTitle {
+            get {
+                return ResourceManager.GetString("MainViewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://playground.tesonet.lt/v1/servers.
         /// </summary>
         internal static string ServersUrl {

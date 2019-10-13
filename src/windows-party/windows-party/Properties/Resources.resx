@@ -129,6 +129,10 @@
     <value>Exception of type "{0}" was thrown during HTTP POST operation. The message was: "{1}". Url string that caused this error: "{2}", POST payload: "{3}"</value>
     <comment>Used in HTTP class</comment>
   </data>
+  <data name="MainViewTitle" xml:space="preserve">
+    <value>windows-party</value>
+    <comment>Main window's  title</comment>
+  </data>
   <data name="ServersUrl" xml:space="preserve">
     <value>http://playground.tesonet.lt/v1/servers</value>
     <comment>User for fetching the servers list</comment>
